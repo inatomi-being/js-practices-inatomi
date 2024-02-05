@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-for (let num = 1; num <= 20; num++)
+for (let num = 1; num <= 20; num++){
   if (num % 3 == 0 && num % 5 == 0) {
     console.log("FizzBuzz");
   } else if (num % 3 == 0) {
@@ -10,3 +10,4 @@ for (let num = 1; num <= 20; num++)
   } else {
     console.log(num);
   }
+}
