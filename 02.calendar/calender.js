@@ -1,8 +1,20 @@
 #!/usr/bin/env node
 const today = new Date()
-const yearmonths = process.argv.slice(2)
-const year = yearmonths[0] || today.getFullYear()
-const month = yearmonths[1] || today.getMonth() + 1
+const yearmonths = import('minimist')(process.yearmonths.slice(2))
+let year = today.getFullYear()
+if (yearmonths.y != null) {
+  year = yearmonths.y
+}
+let month = today.getMonth() + 1
+if (yearmonths.m != null) {
+  month = yearmonths.m
+}
+
+if (month < 1) {
+  month = 1
+} else if (month > 12) {
+  month = 12
+}
 console.log(year + '年' + month + '月')
 const weeks = ['日', '月', '火', '水', '木', '金', '土']
 console.log(weeks.join(' '))
