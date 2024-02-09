@@ -9,5 +9,8 @@
     "eslint-plugin-prettier": "^5.1.3",
     "prettier": "^3.2.5"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "minimist": "^1.2.8"
+  }
 }
