@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import minimist from 'minimist' //
+import minimist from 'minimist'
 const today = new Date()
 
 const yearmonths = minimist(process.argv.slice(2))
