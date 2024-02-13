@@ -2,9 +2,9 @@
 import minimist from 'minimist'
 const today = new Date()
 
-const yearmonths = minimist(process.argv.slice(2))
-const month = yearmonths.m || today.getMonth() + 1
-const year = yearmonths.y || today.getFullYear()
+const options = minimist(process.argv.slice(2))
+const month = options.m || today.getMonth() + 1
+const year = options.y || today.getFullYear()
 
 console.log(`${year}年${month}月`)
 const weeks = ['日', '月', '火', '水', '木', '金', '土']
