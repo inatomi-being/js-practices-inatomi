@@ -23,6 +23,6 @@ for (let i = 1; i <= endDate.getDate(); i++) {
   const day = new Date(year, month - 1, i).getDay()
 
   if (day == 6) {
-    console.log(``)
+    console.log('')
   }
 }
