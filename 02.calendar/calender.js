@@ -26,3 +26,4 @@ for (let i = 1; i <= endDate.getDate(); i++) {
     console.log('')
   }
 }
+process.stdout.write('\n')
