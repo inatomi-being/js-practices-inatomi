@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import fs from "fs";
 import path from "path";
 
@@ -46,8 +48,8 @@ if (command === "-a") {
   deleteMemo(index);
 } else {
   console.log("Invalid command. Please use one of the following commands:");
-  console.log("-a : Add memo");
-  console.log("-l : List memos");
-  console.log("-r : Read memo");
-  console.log("-d : Delete memo");
+  console.log("-a : メモ追加");
+  console.log("-l : メモリスト参照");
+  console.log("-r : メモを読む");
+  console.log("-d : メモを消す");
 }
