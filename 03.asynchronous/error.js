@@ -1,7 +1,5 @@
 const sqlite3 = require("sqlite3").verbose();
 
-
-
 // SQLite データベースファイルのパス
 const dbPath = "example.db";
 
@@ -18,7 +16,7 @@ function openDatabase() {
         } else {
           resolve(db);
         }
-      }
+      },
     );
   });
 }
@@ -38,7 +36,7 @@ function createTable(db) {
         } else {
           resolve();
         }
-      }
+      },
     );
   });
 }
@@ -55,7 +53,7 @@ function insertRecord(db, name, email) {
         } else {
           resolve(this.lastID);
         }
-      }
+      },
     );
   });
 }
