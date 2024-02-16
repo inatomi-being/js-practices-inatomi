@@ -6,7 +6,7 @@ const options = minimist(process.argv.slice(2))
 const month = options.m || today.getMonth() + 1
 const year = options.y || today.getFullYear()
 
-console.log(`${year}年${month}月`)
+console.log(`      ${year}年${month}月`)
 const weeks = ['日', '月', '火', '水', '木', '金', '土']
 console.log(weeks.join(' '))
 const startDate = new Date(year, month - 1, 1)
