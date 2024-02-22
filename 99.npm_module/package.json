@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/inatomi-being/js-practices-inatomi/issues"
   },
-  "homepage": "https://github.com/inatomi-being/js-practices-inatomi#readme"
+  "homepage": "https://github.com/inatomi-being/js-practices-inatomi#readme",
+  "devDependencies": {
+    "prettier": "^3.2.5"
+  }
 }
