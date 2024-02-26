@@ -1,6 +1,6 @@
 {
   "name": "inatomifbc",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "fbcpractice",
   "main": "index.js",
   "scripts": {
