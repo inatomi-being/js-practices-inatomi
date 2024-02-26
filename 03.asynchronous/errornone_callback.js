@@ -65,7 +65,7 @@ function fetchRecords(run, callback) {
 
 // テーブルの削除のPromise化
 function dropTable(run, callback) {
-  db.run("DROP TABLE IF EXISTS users", (err) => {
+  run.run("DROP TABLE IF EXISTS users", (err) => {
     if (err) {
       callback(err);
     } else {
