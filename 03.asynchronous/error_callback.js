@@ -5,21 +5,21 @@ const dbPath = "example.db";
 
 // データベースオブジェクトの取得
 function openDatabase(callback) {
-  const db = new sqlite3.Database(
+  const run = new sqlite3.Database(
     dbPath,
     sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE,
     (err) => {
       if (err) {
         callback(err);
       } else {
-        callback(null, db);
+        callback(null, run);
       }
     },
   );
 }
 
 // テーブルの作成
-function createTable(db, callback) {
+function createTable(run, callback) {
   db.run(
     `CREATE TABLE IF NOT EXISTS users (
           id INTEGER PRIMARY KEY,

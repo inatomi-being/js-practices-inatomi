@@ -13,15 +13,15 @@ function openDatabase(callback) {
       if (err) {
         callback(err, null);
       } else {
-        callback(null, db);
+        callback(null, run);
       }
     },
   );
 }
 
 // テーブルの作成のPromise化
-function createTable(db, callback) {
-  db.run(
+function createTable(run, callback) {
+  run.run(
     `CREATE TABLE IF NOT EXISTS users (
           id INTEGER PRIMARY KEY,
           name TEXT NOT NULL,
@@ -39,7 +39,7 @@ function createTable(db, callback) {
 
 // レコードの追加のPromise化
 function insertRecord(db, name, email, callback) {
-  db.run(
+  run.run(
     "INSERT INTO users (name, email) VALUES (?, ?)",
     [name, email],
     function (err) {
@@ -53,8 +53,8 @@ function insertRecord(db, name, email, callback) {
 }
 
 // レコードの取得のPromise化
-function fetchRecords(db, callback) {
-  db.all("SELECT * FROM users", (err, rows) => {
+function fetchRecords(run, callback) {
+  run.all("SELECT * FROM users", (err, rows) => {
     if (err) {
       callback(err, null);
     } else {
@@ -64,7 +64,7 @@ function fetchRecords(db, callback) {
 }
 
 // テーブルの削除のPromise化
-function dropTable(db, callback) {
+function dropTable(run, callback) {
   db.run("DROP TABLE IF EXISTS users", (err) => {
     if (err) {
       callback(err);
@@ -76,34 +76,34 @@ function dropTable(db, callback) {
 
 // エラーなしのプログラム
 function runWithoutError() {
-  openDatabase((err, db) => {
+  openDatabase((err, run) => {
     if (err) {
       console.error("Error opening database:", err);
       return;
     }
-    createTable(db, (err) => {
+    createTable(run, (err) => {
       if (err) {
         console.error("Error creating table:", err);
         return;
       }
-      insertRecord(db, "John Doe", "john@example.com", (err, insertedId) => {
+      insertRecord(run, "John Doe", "john@example.com", (err, insertedId) => {
         if (err) {
           console.error("Error inserting record:", err);
           return;
         }
         console.log("Inserted row with ID:", insertedId);
-        fetchRecords(db, (err, records) => {
+        fetchRecords(run, (err, records) => {
           if (err) {
             console.error("Error fetching records:", err);
             return;
           }
           console.log("Fetched rows:", records);
-          dropTable(db, (err) => {
+          dropTable(run, (err) => {
             if (err) {
               console.error("Error dropping table:", err);
               return;
             }
-            db.close();
+            run.close();
           });
         });
       });
