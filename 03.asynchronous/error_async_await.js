@@ -1,7 +1,19 @@
 const sqlite3 = require("sqlite3").verbose();
 
-// SQLite データベースファイルのパス
-const dbPath = "example.db";
+// インメモリデータベースのパス
+const dbPath = ":memory:";
+
+// インメモリデータベースを作成する
+const db = new sqlite3.Database(dbPath);
+
+// データベースを操作するクエリや処理を行うことができます
+
+// データベースをクローズする
+db.close((err) => {
+  if (err) {
+    return console.error(err.message);
+  }
+});
 
 // データベースオブジェクトのPromise化
 function openDatabase() {
