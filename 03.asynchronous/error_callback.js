@@ -3,107 +3,97 @@ const sqlite3 = require("sqlite3").verbose();
 // SQLite データベースファイルのパス
 const dbPath = "example.db";
 
-// データベースオブジェクトのPromise化
-
-function openDatabase() {
-  return new Promise((resolve, reject) => {
-    const db = new sqlite3.Database(
-      dbPath,
-      sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE,
-      (err) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(db);
-        }
-      },
-    );
-  });
-}
-
-// テーブルの作成のPromise化
-function createTable(db) {
-  return new Promise((resolve, reject) => {
-    db.run(
-      `CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY,
-            name TEXT NOT NULL,
-            email TEXT NOT NULL
-        )`,
-      (err) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve();
-        }
-      },
-    );
-  });
-}
-
-// レコードの追加のPromise化
-function insertRecord(db, name, email) {
-  return new Promise((resolve, reject) => {
-    db.run(
-      "INSERT INTO users (name, email) VALUES (?, ?)",
-      [name, email],
-      function (err) {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(this.lastID);
-        }
-      },
-    );
-  });
-}
-
-// レコードの取得のPromise化
-function fetchRecords(db) {
-  return new Promise((resolve, reject) => {
-    db.all("SELECT * FROM users", (err, rows) => {
+// データベースオブジェクトの取得
+function openDatabase(callback) {
+  const db = new sqlite3.Database(
+    dbPath,
+    sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE,
+    (err) => {
       if (err) {
-        reject(err);
+        callback(err);
       } else {
-        resolve(rows);
+        callback(null, db);
       }
-    });
+    },
+  );
+}
+
+// テーブルの作成
+function createTable(db, callback) {
+  db.run(
+    `CREATE TABLE IF NOT EXISTS users (
+          id INTEGER PRIMARY KEY,
+          name TEXT NOT NULL,
+          email TEXT NOT NULL
+      )`,
+    (err) => {
+      callback(err);
+    },
+  );
+}
+
+// レコードの追加
+function insertRecord(db, name, email, callback) {
+  db.run(
+    "INSERT INTO users (name, email) VALUES (?, ?)",
+    [name, email],
+    function (err) {
+      if (err) {
+        callback(err);
+      } else {
+        callback(null, this.lastID);
+      }
+    },
+  );
+}
+
+// レコードの取得
+function fetchRecords(db, callback) {
+  db.all("SELECT * FROM users", (err, rows) => {
+    callback(err, rows);
   });
 }
 
-// テーブルの削除のPromise化
-function dropTable(db) {
-  return new Promise((resolve, reject) => {
-    db.run("DROP TABLE IF EXISTS users", (err) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve();
-      }
-    });
+// テーブルの削除
+function dropTable(db, callback) {
+  db.run("DROP TABLE IF EXISTS users", (err) => {
+    callback(err);
   });
 }
 
 // エラーありのプログラム
-async function runWithError() {
-  try {
-    const db = await openDatabase();
-    await createTable(db);
-    try {
-      await insertRecord(db, "John Doe", null); // エラーを発生させるために email を null にする
-    } catch (err) {
-      console.error("Error inserting record:", err);
+function runWithError() {
+  openDatabase((err, db) => {
+    if (err) {
+      console.error("Error opening database:", err);
+      return;
     }
-    try {
-      await fetchRecords(db);
-    } catch (err) {
-      console.error("Error fetching records:", err);
-    }
-    await dropTable(db);
-    db.close();
-  } catch (err) {
-    console.error("Error:", err);
-  }
+    createTable(db, (err) => {
+      if (err) {
+        console.error("Error creating table:", err);
+        db.close();
+        return;
+      }
+      insertRecord(db, "John Doe", null, (err) => {
+        if (err) {
+          console.error("Error inserting record:", err);
+        }
+        fetchRecords(db, (err, rows) => {
+          if (err) {
+            console.error("Error fetching records:", err);
+          } else {
+            console.log("Fetched records:", rows);
+          }
+          dropTable(db, (err) => {
+            if (err) {
+              console.error("Error dropping table:", err);
+            }
+            db.close();
+          });
+        });
+      });
+    });
+  });
 }
 
 // エラーありのプログラムの実行

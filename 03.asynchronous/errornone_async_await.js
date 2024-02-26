@@ -4,8 +4,7 @@ const sqlite3 = require("sqlite3").verbose();
 const dbPath = "example.db";
 
 // データベースオブジェクトのPromise化
-
-function openDatabase() {
+async function openDatabase() {
   return new Promise((resolve, reject) => {
     const db = new sqlite3.Database(
       dbPath,
@@ -22,15 +21,14 @@ function openDatabase() {
 }
 
 // テーブルの作成のPromise化
-function createTable(db) {
+async function createTable(db) {
   return new Promise((resolve, reject) => {
-    //promise関数を返す
     db.run(
       `CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY,
             name TEXT NOT NULL,
             email TEXT NOT NULL
-        )`, //文字列
+        )`,
       (err) => {
         if (err) {
           reject(err);
@@ -43,9 +41,8 @@ function createTable(db) {
 }
 
 // レコードの追加のPromise化
-function insertRecord(db, name, email) {
+async function insertRecord(db, name, email) {
   return new Promise((resolve, reject) => {
-    //promise関数を返す
     db.run(
       "INSERT INTO users (name, email) VALUES (?, ?)",
       [name, email],
@@ -61,9 +58,8 @@ function insertRecord(db, name, email) {
 }
 
 // レコードの取得のPromise化
-function fetchRecords(db) {
+async function fetchRecords(db) {
   return new Promise((resolve, reject) => {
-    //promise関数を返す
     db.all("SELECT * FROM users", (err, rows) => {
       if (err) {
         reject(err);
@@ -75,7 +71,7 @@ function fetchRecords(db) {
 }
 
 // テーブルの削除のPromise化
-function dropTable(db) {
+async function dropTable(db) {
   return new Promise((resolve, reject) => {
     db.run("DROP TABLE IF EXISTS users", (err) => {
       if (err) {

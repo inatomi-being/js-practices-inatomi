@@ -4,7 +4,6 @@ const sqlite3 = require("sqlite3").verbose();
 const dbPath = "example.db";
 
 // データベースオブジェクトのPromise化
-
 function openDatabase() {
   return new Promise((resolve, reject) => {
     const db = new sqlite3.Database(
