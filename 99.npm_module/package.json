@@ -1,10 +1,13 @@
 {
   "name": "inatomifbc",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "fbcpractice",
   "main": "index.js",
   "scripts": {
     "test": "inatomifbc"
+  },
+"bin": {
+    "inatomifbc": "index.js"
   },
   "repository": {
     "type": "git",
