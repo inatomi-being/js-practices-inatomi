@@ -5,3 +5,5 @@ module.exports = {
   hello,
   helloworld,
 };
+
+console.log("npm_module_do_jsファイルを実行するとhelloと表示されます");
